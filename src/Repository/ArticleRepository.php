@@ -13,13 +13,17 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
-    public function findByCriteria(array $criteria)
+    /**
+     * @param array $criteria
+     * @return Article[]
+     */
+    public function findByCriteria(array $criteria): array
     {
         $qb = $this->createQueryBuilder('a');
 
         if (!empty($criteria['name'])) {
             $qb->andWhere('a.name LIKE :name')
-                ->setParameter('name', '%'.$criteria['name'].'%');
+                ->setParameter('name', '%' . $criteria['name'] . '%');
         }
 
         if (!empty($criteria['category'])) {
