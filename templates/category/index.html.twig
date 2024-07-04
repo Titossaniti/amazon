@@ -1,0 +1,24 @@
+{# templates/category/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Catégories{% endblock %}
+
+{% block body %}
+<div class="my-4">
+    <h1>Liste des Catégories</h1>
+    <div class="row">
+        {% for category in categories %}
+            <a href="{{ path('category_show', {'id': category.id}) }}">
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ category.name }}</h5>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

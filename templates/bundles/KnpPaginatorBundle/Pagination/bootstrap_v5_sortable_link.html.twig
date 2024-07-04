@@ -1,0 +1,9 @@
+{# templates/bundles/KnpPaginatorBundle/Pagination/bootstrap_v5_sortable_link.html.twig #}
+<a href="{{ knp_pagination_sortable(request, key, direction) }}" class="sortable {{ direction is defined ? 'sorted' }} {{ direction == 'desc' ? 'desc' : 'asc' }}">
+    {{ label|trans }}
+    {% if direction == 'asc' %}
+        <i class="bi bi-arrow-up"></i>
+    {% elseif direction == 'desc' %}
+        <i class="bi bi-arrow-down"></i>
+    {% endif %}
+</a>
