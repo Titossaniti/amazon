@@ -8,19 +8,24 @@
         <h1>Liste des Articles</h1>
         <div class="mb-4">
             {{ form_start(filter_form, {'attr': {'class': 'row g-3'}}) }}
-            <div class="col-md-3">
+            <div class="col-lg-3">
                 {{ form_row(filter_form.name, {'attr': {'class': 'form-control'}}) }}
             </div>
-            <div class="col-md-3">
+            <div class="col-lg-3">
                 {{ form_row(filter_form.category, {'attr': {'class': 'form-control'}}) }}
             </div>
-            <div class="col-md-3">
+            <div class="col-lg-3">
                 {{ form_row(filter_form.commercant, {'attr': {'class': 'form-control'}}) }}
             </div>
-            <div class="col-md-3 d-grid">
-                <button type="submit" class="btn btn-primary">Rechercher</button>
+            <div class="col-lg-3 d-flex justify-content-around align-self-end">
+                <div>
+                    {{ form_widget(filter_form.reset, {'attr': {'class': 'btn btn-primary'}}) }}
+                </div>
+                <div>
+                    {{ form_end(filter_form, {'attr': {'class': 'btn btn-primary'}}) }}
+                </div>
             </div>
-            {{ form_end(filter_form) }}
+
         </div>
 
         <div class="row">
@@ -29,7 +34,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">{{ article.name }}</h5>
-                            <p class="card-text">{{ article.description }}</p>
+                            <p class="card-text text-muted">{{ article.description }}</p>
                             <p class="card-text"><strong>Prix:</strong> {{ article.price }} €</p>
                             <p class="card-text"><strong>Stock:</strong> {{ article.stock }}</p>
                             <p class="card-text"><strong>Vendeur:</strong> {{ article.commercant.name }}</p>
@@ -44,4 +49,12 @@
             {{ knp_pagination_render(articles) }}
         </div>
     </div>
+    <script defer>
+        function resetForm(event) {
+            event.preventDefault();
+            const form = event.target.closest('form');
+            form.reset();
+            window.location.href = '{{ path('app_home') }}';
+        }
+    </script>
 {% endblock %}
