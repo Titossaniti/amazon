@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ category.name }}{% endblock %}
+{% block title %}{{ commercant.name }}{% endblock %}
 
 {% block body %}
-    <h1><a class="link-underline link-underline-opacity-0 me-3 text-light-emphasis fw-bold" href="{{path('category_index') }}">&#9166</a>{{ category.name }}</h1>
+    <h1><a class="link-underline link-underline-opacity-0 me-3 text-light-emphasis fw-bold" href="{{path('commercant_index') }}">&#9166</a>{{ commercant.name }}</h1>
 
     <div class="row">
         {% for article in articles %}
@@ -14,12 +14,12 @@
                         <p class="card-text text-muted">{{ article.description }}</p>
                         <p class="card-text"><strong>Prix:</strong> {{ article.price }} €</p>
                         <p class="card-text"><strong>Stock:</strong> {{ article.stock }}</p>
-                        <p class="card-text"><strong>Vendeur:</strong> {{ article.commercant.name }}</p>
+                        <p class="card-text"><strong>Catégorie:</strong> {{ article.category.name }}</p>
                     </div>
                 </div>
             </div>
         {% endfor %}
     </div>
 
-    <a href="{{ path('category_index') }}">Retour à la liste des catégories</a>
+    <a href="{{ path('commercant_index') }}">Retour à la liste des vendeurs</a>
 {% endblock %}

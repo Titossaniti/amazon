@@ -1,0 +1,24 @@
+{# templates/commercant/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Vendeurs{% endblock %}
+
+{% block body %}
+    <div class="my-4">
+        <h1>Liste des Vendeurs</h1>
+        <div class="row">
+            {% for commercant in commercants %}
+                <a href="{{ path('commercant_show', {'id': commercant.id}) }}">
+                    <div class="col-md-6 col-sm-12 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ commercant.name }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
