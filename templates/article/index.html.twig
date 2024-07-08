@@ -15,7 +15,7 @@
             {{ form_row(filter_form.category, {'attr': {'class': 'form-control'}}) }}
         </div>
         <div class="col-lg-3">
-            {{ form_row(filter_form.commercant, {'attr': {'class': 'form-control'}}) }}
+            {{ form_row(filter_form.user, {'attr': {'class': 'form-control'}}) }}
         </div>
         <div class="col-lg-3 d-flex justify-content-around align-self-end">
             <div>
@@ -36,7 +36,7 @@
                         <p class="card-text text-muted">{{ article.description }}</p>
                         <p class="card-text"><strong>Prix:</strong> {{ article.price }} €</p>
                         <p class="card-text"><strong>Stock:</strong> {{ article.stock }}</p>
-                        <p class="card-text"><strong>Vendeur:</strong> {{ article.commercant.name }}</p>
+                        <p class="card-text"><strong>Vendeur:</strong> {{ article.user.username }}</p>
                         <p class="card-text"><strong>Catégorie:</strong> {{ article.category.name }}</p>
                     </div>
                 </a>

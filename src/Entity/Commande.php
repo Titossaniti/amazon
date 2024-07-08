@@ -18,15 +18,15 @@ class Commande
     #[ORM\Column(length: 255)]
     private ?string $status = null;
 
-    #[ORM\ManyToOne(inversedBy: 'commandes')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Visiteur $visiteur = null;
 
     #[ORM\OneToMany(targetEntity: Facture::class, mappedBy: 'commande')]
     private Collection $factures;
 
     #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'commandes')]
     private Collection $articles;
+
+    #[ORM\ManyToOne(inversedBy: 'commande')]
+    private ?User $user = null;
 
     public function __construct()
     {
@@ -52,17 +52,6 @@ class Commande
         return $this;
     }
 
-    public function getVisiteur(): ?Visiteur
-    {
-        return $this->visiteur;
-    }
-
-    public function setVisiteur(?Visiteur $visiteur): self
-    {
-        $this->visiteur = $visiteur;
-
-        return $this;
-    }
 
     public function getFactures(): Collection
     {
@@ -110,6 +99,18 @@ class Commande
         if ($this->articles->removeElement($article)) {
             $article->removeCommande($this);
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

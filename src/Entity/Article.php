@@ -29,22 +29,17 @@ class Article
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Commercant $commercant = null;
-
-    #[ORM\ManyToOne(inversedBy: 'articles')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
-    #[ORM\ManyToMany(targetEntity: Commande::class, inversedBy: 'articles')]
-    #[ORM\JoinTable(name: 'article_commande')]
-    private Collection $commandes;
 
     #[ORM\ManyToMany(targetEntity: Panier::class, inversedBy: 'articles')]
     private Collection $paniers;
 
+    #[ORM\ManyToOne(inversedBy: 'article')]
+    private ?User $user = null;
+
     public function __construct()
     {
-        $this->commandes = new ArrayCollection();
         $this->paniers = new ArrayCollection();
     }
 
@@ -97,18 +92,6 @@ class Article
     public function setStock(int $stock): self
     {
         $this->stock = $stock;
-
-        return $this;
-    }
-
-    public function getCommercant(): ?Commercant
-    {
-        return $this->commercant;
-    }
-
-    public function setCommercant(?Commercant $commercant): self
-    {
-        $this->commercant = $commercant;
 
         return $this;
     }
@@ -169,6 +152,18 @@ class Article
         if ($this->paniers->removeElement($panier)) {
             $panier->removeArticle($this);
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

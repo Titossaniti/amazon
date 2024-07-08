@@ -15,14 +15,14 @@ class Panier
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(inversedBy: 'panier', cascade: ['persist', 'remove'])]
-    private ?Visiteur $visiteur = null;
-
     /**
      * @var Collection<int, Article>
      */
     #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'panier')]
     private Collection $articles;
+
+    #[ORM\OneToOne(mappedBy: 'panier', cascade: ['persist', 'remove'])]
+    private ?User $user = null;
 
     public function __construct()
     {
@@ -37,18 +37,6 @@ class Panier
     public function setId(int $id): static
     {
         $this->id = $id;
-
-        return $this;
-    }
-
-    public function getVisiteur(): ?Visiteur
-    {
-        return $this->visiteur;
-    }
-
-    public function setVisiteur(?Visiteur $visiteur): static
-    {
-        $this->visiteur = $visiteur;
 
         return $this;
     }
@@ -76,6 +64,28 @@ class Panier
         if ($this->articles->removeElement($article)) {
             $article->removePanier($this);
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($user === null && $this->user !== null) {
+            $this->user->setPanier(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($user !== null && $user->getPanier() !== $this) {
+            $user->setPanier($this);
+        }
+
+        $this->user = $user;
 
         return $this;
     }

@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Category;
-use App\Entity\Commercant;
+use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -27,9 +27,9 @@ class FilterType extends AbstractType
                 'required' => false,
                 'label' => 'Catégorie'
             ])
-            ->add('commercant', EntityType::class, [
-                'class' => Commercant::class,
-                'choice_label' => 'name',
+            ->add('user', EntityType::class, [
+                'class' => User::class,
+                'choice_label' => 'username',
                 'required' => false,
                 'label' => 'Vendeur'
             ])

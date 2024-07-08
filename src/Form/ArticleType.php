@@ -4,9 +4,7 @@ namespace App\Form;
 
 use App\Entity\Article;
 use App\Entity\Category;
-use App\Entity\Commande;
-use App\Entity\Commercant;
-use App\Entity\Panier;
+use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,9 +19,9 @@ class ArticleType extends AbstractType
             ->add('description')
             ->add('price')
             ->add('stock')
-            ->add('commercant', EntityType::class, [
-                'class' => Commercant::class,
-                'choice_label' => 'name',
+            ->add('user', EntityType::class, [
+                'class' => User::class,
+                'choice_label' => 'username',
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,

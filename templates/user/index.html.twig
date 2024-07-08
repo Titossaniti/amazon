@@ -1,4 +1,4 @@
-{# templates/commercant/index.html.twig #}
+{# templates/user/index.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}Vendeurs{% endblock %}
@@ -7,12 +7,12 @@
     <div class="my-4">
         <h1>Liste des Vendeurs</h1>
         <div class="row">
-            {% for commercant in commercants %}
-                <a href="{{ path('commercant_show', {'id': commercant.id}) }}">
+            {% for user in users %}
+                <a href="{{ path('commercant_show', {'id': user.id}) }}">
                     <div class="col-md-6 col-sm-12 mb-4">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">{{ commercant.name }}</h5>
+                                <h5 class="card-title">{{ user.username }}</h5>
                             </div>
                         </div>
                     </div>
