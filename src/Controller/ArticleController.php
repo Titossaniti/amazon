@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[Route('/article')]
 class ArticleController extends AbstractController
@@ -20,7 +21,9 @@ class ArticleController extends AbstractController
     public function index(ArticleRepository $articleRepository, Request $request, PaginatorInterface $paginator): Response
     {
         // Création du formulaire de filtre
-        $form = $this->createForm(FilterType::class);
+        $form = $this->createForm(FilterType::class, null, [
+            'include_user' => true
+        ]);
         $form->handleRequest($request);
 
         // Récupération des articles selon les critères de filtre
@@ -68,21 +71,22 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    #[\Symfony\Component\Routing\Annotation\Route('/articles/manage', name: 'article_manage', methods: ['GET','POST'])]
-    public function manage(ArticleRepository $articleRepository, Request $request): Response
+    #[Route('/articles/manage', name: 'article_manage', methods: ['GET','POST'])]
+    public function manage(ArticleRepository $articleRepository, Request $request, UserInterface $user): Response
     {
-        // Création du formulaire de filtre
-        $form = $this->createForm(FilterType::class);
+        // Création du formulaire de filtre sans le champ user
+        $form = $this->createForm(FilterType::class, null, [
+            'include_user' => false
+        ]);
         $form->handleRequest($request);
 
         // Récupération des articles selon les critères de filtre
         $criteria = $form->isSubmitted() && $form->isValid() ? $form->getData() : [];
-        $articles = $articleRepository->findByCriteria($criteria);
+        $articles = $articleRepository->findByCriteriaAndUser($criteria, $user);
 
         return $this->render('article/manage.html.twig', [
             'articles' => $articles,
             'filter_form' => $form->createView(),
-            'update_form' => $form->createView()
         ]);
     }
 

@@ -1,10 +1,11 @@
 <?php
 
+// src/Form/FilterType.php
+
 namespace App\Form;
 
 use App\Entity\Category;
 use App\Entity\User;
-use App\Repository\UserRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -27,13 +28,18 @@ class FilterType extends AbstractType
                 'choice_label' => 'name',
                 'required' => false,
                 'label' => 'Catégorie'
-            ])
-            ->add('user', EntityType::class, [
+            ]);
+
+        if ($options['include_user']) {
+            $builder->add('user', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'username',
                 'required' => false,
                 'label' => 'Vendeur'
-            ])
+            ]);
+        }
+
+        $builder
             ->add('search', SubmitType::class, [
                 'label' => 'Rechercher',
                 'attr' => [
@@ -52,6 +58,7 @@ class FilterType extends AbstractType
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
+            'include_user' => true
         ]);
     }
 }

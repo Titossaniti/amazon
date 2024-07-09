@@ -6,4 +6,14 @@ controllers:
 app_home:
     path: /
     controller: App\Controller\ArticleController::index
+app_login:
+    path: /login
+    controller: App\Controller\SecurityController::login
 
+app_logout:
+    path: /logout
+    controller: App\Controller\SecurityController::logout
+
+app_register:
+    path: /register
+    controller: App\Controller\RegistrationController::register
