@@ -32,10 +32,9 @@ class ArticleRepository extends ServiceEntityRepository
             $qb->andWhere('a.category = :category')
                 ->setParameter('category', $criteria['category']);
         }
-
         if (!empty($criteria['user'])) {
-            $qb->andWhere('a.user = :commercant')
-                ->setParameter('commercant', $criteria['user']);
+            $qb->andWhere('a.user = :username')
+                ->setParameter('username', $criteria['user']);
         }
 
         return $qb->getQuery()->getResult();

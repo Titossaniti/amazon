@@ -23,11 +23,6 @@ class AddArticleType extends AbstractType
             ->add('user', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'username',
-                'query_builder' => function (UserRepository $ur) {
-                    return $ur->createQueryBuilder('u')
-                        ->where('u.role = :role')
-                        ->setParameter('role', 'commercant');
-                },
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,

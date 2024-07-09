@@ -3,9 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\CommandeRepository;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CommandeRepository::class)]
 class Commande
@@ -15,25 +15,22 @@ class Commande
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $status = null;
-
-
-    #[ORM\OneToMany(targetEntity: Facture::class, mappedBy: 'commande')]
-    private Collection $factures;
-
-    #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'commandes')]
-    private Collection $articles;
 
     #[ORM\ManyToOne(inversedBy: 'commande')]
     private ?User $user = null;
 
+    /**
+     * @var Collection<int, Facture>
+     */
+    #[ORM\OneToMany(targetEntity: Facture::class, mappedBy: 'commande')]
+    private Collection $facture;
+
     public function __construct()
     {
-        $this->factures = new ArrayCollection();
-        $this->articles = new ArrayCollection();
+        $this->facture = new ArrayCollection();
     }
-
 
     public function getId(): ?int
     {
@@ -45,60 +42,9 @@ class Commande
         return $this->status;
     }
 
-    public function setStatus(string $status): self
+    public function setStatus(?string $status): static
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-
-    public function getFactures(): Collection
-    {
-        return $this->factures;
-    }
-
-    public function addFacture(Facture $facture): self
-    {
-        if (!$this->factures->contains($facture)) {
-            $this->factures[] = $facture;
-            $facture->setCommande($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFacture(Facture $facture): self
-    {
-        if ($this->factures->removeElement($facture)) {
-            if ($facture->getCommande() === $this) {
-                $facture->setCommande(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getArticles(): Collection
-    {
-        return $this->articles;
-    }
-
-    public function addArticle(Article $article): self
-    {
-        if (!$this->articles->contains($article)) {
-            $this->articles[] = $article;
-            $article->addCommande($this);
-        }
-
-        return $this;
-    }
-
-    public function removeArticle(Article $article): self
-    {
-        if ($this->articles->removeElement($article)) {
-            $article->removeCommande($this);
-        }
 
         return $this;
     }
@@ -111,6 +57,36 @@ class Commande
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Facture>
+     */
+    public function getFacture(): Collection
+    {
+        return $this->facture;
+    }
+
+    public function addFacture(Facture $facture): static
+    {
+        if (!$this->facture->contains($facture)) {
+            $this->facture->add($facture);
+            $facture->setCommande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFacture(Facture $facture): static
+    {
+        if ($this->facture->removeElement($facture)) {
+            // set the owning side to null (unless already changed)
+            if ($facture->getCommande() === $this) {
+                $facture->setCommande(null);
+            }
+        }
 
         return $this;
     }

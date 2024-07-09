@@ -43,8 +43,6 @@ class AppFixtures extends Fixture
             $user->setUsername($username);
             $user->setEmail($username . '@example.com');
             $user->setPassword($this->passwordHasher->hashPassword($user, 'password'));
-            $role = in_array($username, $usernames) ? 'buyer' : 'user';
-            $user->setRole($role);
             $manager->persist($user);
             $userEntities[$username] = $user;
         }

@@ -31,17 +31,20 @@ class Article
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
-
-    #[ORM\ManyToMany(targetEntity: Panier::class, inversedBy: 'articles')]
-    private Collection $paniers;
-
     #[ORM\ManyToOne(inversedBy: 'article')]
     private ?User $user = null;
+
+    /**
+     * @var Collection<int, Panier>
+     */
+    #[ORM\ManyToMany(targetEntity: Panier::class, mappedBy: 'article')]
+    private Collection $paniers;
 
     public function __construct()
     {
         $this->paniers = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -108,54 +111,6 @@ class Article
         return $this;
     }
 
-    public function getCommandes(): Collection
-    {
-        return $this->commandes;
-    }
-
-    public function addCommande(Commande $commande): self
-    {
-        if (!$this->commandes->contains($commande)) {
-            $this->commandes[] = $commande;
-            $commande->addArticle($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommande(Commande $commande): self
-    {
-        if ($this->commandes->removeElement($commande)) {
-            $commande->removeArticle($this);
-        }
-
-        return $this;
-    }
-
-    public function getPaniers(): Collection
-    {
-        return $this->paniers;
-    }
-
-    public function addPanier(Panier $panier): self
-    {
-        if (!$this->paniers->contains($panier)) {
-            $this->paniers[] = $panier;
-            $panier->addArticle($this);
-        }
-
-        return $this;
-    }
-
-    public function removePanier(Panier $panier): self
-    {
-        if ($this->paniers->removeElement($panier)) {
-            $panier->removeArticle($this);
-        }
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -164,6 +119,33 @@ class Article
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Panier>
+     */
+    public function getPaniers(): Collection
+    {
+        return $this->paniers;
+    }
+
+    public function addPanier(Panier $panier): static
+    {
+        if (!$this->paniers->contains($panier)) {
+            $this->paniers->add($panier);
+            $panier->addArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removePanier(Panier $panier): static
+    {
+        if ($this->paniers->removeElement($panier)) {
+            $panier->removeArticle($this);
+        }
 
         return $this;
     }

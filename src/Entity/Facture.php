@@ -17,7 +17,10 @@ class Facture
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $totalPrice = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $totalprice = null;
+
+    #[ORM\ManyToOne(inversedBy: 'facture')]
     private ?Commande $commande = null;
 
     public function getId(): ?int
@@ -48,4 +51,5 @@ class Facture
 
         return $this;
     }
+
 }

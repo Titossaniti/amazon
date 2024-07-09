@@ -13,7 +13,7 @@ class UserController extends AbstractController
     #[Route('/commercants', name: 'commercant_index')]
     public function index(UserRepository $userRepository): Response
     {
-        $users = $userRepository->findByRoleCommercant();
+        $users = $userRepository->findAll();
 
         return $this->render('user/index.html.twig', [
             'users' => $users,
