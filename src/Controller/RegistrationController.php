@@ -38,6 +38,10 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            if ($form->get('isCommercant')->getData()) {
+                $user->setRoles([User::ROLE_COMMERCANT]);
+            }
+
             $entityManager->persist($user);
             $entityManager->flush();
 

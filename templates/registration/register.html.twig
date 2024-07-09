@@ -17,8 +17,9 @@
         {{ form_row(registrationForm.plainPassword, {
             label: 'Password'
         }) }}
+        {{ form_row(registrationForm.isCommercant) }}
         {{ form_row(registrationForm.agreeTerms) }}
 
-        <button type="submit" class="btn">Register</button>
+        <button type="submit" class="my-5 btn btn-lg btn-succes">S'inscrire</button>
     {{ form_end(registrationForm) }}
 {% endblock %}
