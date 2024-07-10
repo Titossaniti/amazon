@@ -8,7 +8,7 @@
     <h1>Liste des Catégories</h1>
     <div class="row">
         {% for category in categories %}
-            <a href="{{ path('category_show', {'id': category.id}) }}">
+            <a class="link-underline link-underline-opacity-0" href="{{ path('category_show', {'id': category.id}) }}">
                 <div class="col-md-6 col-sm-12 mb-4">
                     <div class="card">
                         <div class="card-body">

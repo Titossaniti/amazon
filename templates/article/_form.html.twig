@@ -24,10 +24,5 @@
     {{ form_widget(form.category, {'attr': {'class': 'form-control'}}) }}
     {{ form_errors(form.category, {'attr': {'class': 'text-danger'}}) }}
 </div>
-<div class="mb-3">
-    {{ form_label(form.user, 'Vendeur', {'label_attr': {'class': 'form-label'}}) }}
-    {{ form_widget(form.user, {'attr': {'class': 'form-control'}}) }}
-    {{ form_errors(form.user, {'attr': {'class': 'text-danger'}}) }}
-</div>
-<button type="submit" class="btn btn-primary btn-success">Enregister</button>
+<button type="submit" class="btn btn-lg btn-primary btn-success">Enregistrer</button>
 {{ form_end(form) }}

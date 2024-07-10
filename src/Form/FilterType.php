@@ -21,13 +21,20 @@ class FilterType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'required' => false,
-                'label' => 'Nom du produit'
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Nom du produit'
+                ],
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
                 'required' => false,
-                'label' => 'Catégorie'
+                'label' => false,
+                'placeholder' => 'Catégorie',
+                'attr' => [
+                    'class' => 'placeholder-text',
+                ],
             ]);
 
         if ($options['include_user']) {
@@ -35,7 +42,11 @@ class FilterType extends AbstractType
                 'class' => User::class,
                 'choice_label' => 'username',
                 'required' => false,
-                'label' => 'Vendeur'
+                'label' => false,
+                'placeholder' => 'Vendeur',
+                'attr' => [
+                    'class' => 'placeholder-text',
+                ],
             ]);
         }
 

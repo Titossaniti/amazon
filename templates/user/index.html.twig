@@ -4,21 +4,21 @@
 {% block title %}Vendeurs{% endblock %}
 
 {% block body %}
-    <div class="my-4">
-        <h1>Liste des Vendeurs</h1>
-        <div class="row">
-            {% for user in users %}
-                <a href="{{ path('commercant_show', {'id': user.id}) }}">
-                    <div class="col-md-6 col-sm-12 mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ user.username }}</h5>
-                            </div>
+<div class="my-4">
+    <h1>Liste des Vendeurs</h1>
+    <div class="row">
+        {% for user in users %}
+            <a class="link-underline link-underline-opacity-0" href="{{ path('commercant_show', {'id': user.id}) }}">
+                <div class="col-md-6 col-sm-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ user.username }}</h5>
                         </div>
                     </div>
-                </a>
-            {% endfor %}
-        </div>
+                </div>
+            </a>
+        {% endfor %}
     </div>
+</div>
 
 {% endblock %}

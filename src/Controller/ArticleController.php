@@ -9,6 +9,7 @@ use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -17,6 +18,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[Route('/article')]
 class ArticleController extends AbstractController
 {
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
+
     #[Route('/', name: 'app_article_index', methods: ['GET','POST'])]
     public function index(ArticleRepository $articleRepository, Request $request, PaginatorInterface $paginator): Response
     {
@@ -43,7 +51,7 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_article_new', methods: ['GET', 'POST'])]
+    #[Route('/commercant/new', name: 'app_article_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $article = new Article();
@@ -51,6 +59,11 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Récupère l'utilisateur connecté
+            $user = $this->security->getUser();
+            // Associe l'utilisateur connecté à l'article
+            $article->setUser($user);
+
             $entityManager->persist($article);
             $entityManager->flush();
 
@@ -71,7 +84,7 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/articles/manage', name: 'article_manage', methods: ['GET','POST'])]
+    #[Route('/commercant/articles/manage', name: 'article_manage', methods: ['GET','POST'])]
     public function manage(ArticleRepository $articleRepository, Request $request, UserInterface $user): Response
     {
         // Création du formulaire de filtre sans le champ user
@@ -90,12 +103,17 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_article_edit', methods: ['GET', 'POST'])]
+    #[Route('/commercant/{id}/edit', name: 'app_article_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Article $article, EntityManagerInterface $entityManager): Response
     {
+        // Récupère l'utilisateur connecté
+        $user = $this->security->getUser();
+        // Vérifie si l'article appartient à l'utilisateur connecté
+        if ($article->getUser() !== $user) {
+            throw $this->createAccessDeniedException('Vous n\'avez pas la permission de modifier cet article');
+        }
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
@@ -108,7 +126,7 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_article_delete', methods: ['POST'])]
+    #[Route('commercant/{id}', name: 'app_article_delete', methods: ['POST'])]
     public function delete(Request $request, Article $article, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->getPayload()->getString('_token'))) {

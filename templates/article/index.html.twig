@@ -6,23 +6,30 @@
 
     <h1>Liste des articles</h1>
 
-    <div class="mb-4">
-        {{ form_start(filter_form, {'attr': {'class': 'row g-3'}}) }}
-        <div class="col-lg-3">
-            {{ form_row(filter_form.name, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="col-lg-3">
-            {{ form_row(filter_form.category, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="col-lg-3">
-            {{ form_row(filter_form.user, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="col-lg-3 d-flex justify-content-around align-self-end">
-            <div>
-                {{ form_widget(filter_form.reset, {'attr': {'class': 'btn btn-primary'}}) }}
+    <div class="d-sm-none">
+        <button class="btn btn-sm btn-secondary my-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleDiv" aria-expanded="false" aria-controls="collapsibleDiv">
+            Rechercher
+        </button>
+    </div>
+    <div class="collapse d-sm-block my-4" id="collapsibleDiv">
+        <div class="mb-4">
+            {{ form_start(filter_form, {'attr': {'class': 'row g-3'}}) }}
+            <div class="col-lg-3">
+                {{ form_row(filter_form.name, {'attr': {'class': 'form-control'}}) }}
             </div>
-            <div>
-                {{ form_end(filter_form, {'attr': {'class': 'btn btn-primary'}}) }}
+            <div class="col-lg-3">
+                {{ form_row(filter_form.category, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-lg-3">
+                {{ form_row(filter_form.user, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-lg-3 d-flex justify-content-around align-self-end">
+                <div>
+                    {{ form_widget(filter_form.reset, {'attr': {'class': 'btn btn-primary'}}) }}
+                </div>
+                <div>
+                    {{ form_end(filter_form, {'attr': {'class': 'btn btn-primary'}}) }}
+                </div>
             </div>
         </div>
     </div>
