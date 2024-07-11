@@ -51,7 +51,7 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/commercant/new', name: 'app_article_new', methods: ['GET', 'POST'])]
+    #[Route('/seller/new', name: 'app_article_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $article = new Article();
@@ -84,7 +84,7 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/commercant/articles/manage', name: 'article_manage', methods: ['GET','POST'])]
+    #[Route('/seller/articles/manage', name: 'article_manage', methods: ['GET','POST'])]
     public function manage(ArticleRepository $articleRepository, Request $request, UserInterface $user): Response
     {
         // Création du formulaire de filtre sans le champ user
@@ -103,7 +103,7 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/commercant/{id}/edit', name: 'app_article_edit', methods: ['GET', 'POST'])]
+    #[Route('/seller/{id}/edit', name: 'app_article_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Article $article, EntityManagerInterface $entityManager): Response
     {
         // Récupère l'utilisateur connecté
@@ -126,7 +126,7 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('commercant/{id}', name: 'app_article_delete', methods: ['POST'])]
+    #[Route('seller/{id}', name: 'app_article_delete', methods: ['POST'])]
     public function delete(Request $request, Article $article, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->getPayload()->getString('_token'))) {

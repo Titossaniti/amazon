@@ -25,8 +25,9 @@ class FilterType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Nom du produit'
                 ],
-            ])
-            ->add('category', EntityType::class, [
+            ]);
+        if ($options['include_category']) {
+            $builder->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
                 'required' => false,
@@ -36,7 +37,7 @@ class FilterType extends AbstractType
                     'class' => 'placeholder-text',
                 ],
             ]);
-
+        }
         if ($options['include_user']) {
             $builder->add('user', EntityType::class, [
                 'class' => User::class,
@@ -69,7 +70,8 @@ class FilterType extends AbstractType
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
-            'include_user' => true
+            'include_user' => true,
+            'include_category' => true
         ]);
     }
 }
