@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[Route('/article')]
 class ArticleController extends AbstractController
 {
-    private $security;
+    private Security $security;
 
     public function __construct(Security $security)
     {
